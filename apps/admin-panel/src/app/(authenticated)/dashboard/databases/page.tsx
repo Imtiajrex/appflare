@@ -23,16 +23,22 @@ const VendorManagement = () => {
   const [vendorName, setVendorName] = React.useState('')
   const [vendorKey, setVendorKey] = React.useState('')
   const createVendor = async () => {
+    await db.createDocument({
+      collectionName: 'vendors',
+      document: {
+        name: vendorName,
+        key: vendorKey,
+      },
+    })
     refetch()
     setVendorKey('')
     setVendorName('')
   }
-  console.log(vendors)
   return (
     <div className="bg-card border-border gap-2 rounded-xl border p-6">
       {vendors &&
-        vendors.documents.map((vendor: any) => (
-          <p key={vendor.$id} className="rounded-xl bg-red-200 p-2">
+        vendors.data.map((vendor: any) => (
+          <p key={vendor._id} className="rounded-xl bg-red-200 p-2">
             {vendor.name} - {vendor.key}
           </p>
         ))}
